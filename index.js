@@ -1,5 +1,8 @@
 const express = require("express");
 const app = express();
+const dotenv = require("dotenv")
+dotenv.config()
+const mongoose = require("mongoose");
 
 app.use("/static", express.static("public"));
 app.use(express.urlencoded({ extended: true }));
@@ -14,4 +17,7 @@ app.post('/',(req, res) => {
     console.log(req.body);
 });
 
-app.listen(3000, () => console.log("Server Up and running"));
+mongoose.connect(process.env.DB_connect, {useNewUrlParser: true}, () => {
+    console.log("Connected to the database");
+    app.listen(3000, () => console.log("Server up and running"));
+});
